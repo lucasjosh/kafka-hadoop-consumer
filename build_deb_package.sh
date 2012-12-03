@@ -9,7 +9,7 @@ apt-get install -y kafka
 mvn install:install-file -DgroupId=kafka -DartifactId=kafka -Dversion=0.7.2 -Dpackaging=jar -Dfile=/usr/lib/kafka/core/target/scala_2.8.0/kafka-0.7.2.jar -DgeneratePom=true
 
 # I am such a maven noob:
-cd ~/.m2/repository/asm/asm/3.1 && wget http://repo1.maven.org/maven2/asm/asm/3.1/asm-3.1.jar
+cd /root/.m2/repository/asm/asm/3.1 && wget http://repo1.maven.org/maven2/asm/asm/3.1/asm-3.1.jar
 cd $origdir
 
 
