@@ -1,5 +1,5 @@
 #!/bin/bash
-
+origdir=$(pwd)
 
 apt-get install maven2
 gem install -r fpm
@@ -9,8 +9,8 @@ apt-get install -y kafka
 mvn install:install-file -DgroupId=kafka -DartifactId=kafka -Dversion=0.7.2 -Dpackaging=jar -Dfile=/usr/lib/kafka/core/target/scala_2.8.0/kafka-0.7.2.jar -DgeneratePom=true
 
 # I am such a maven noob:
-# cd ~/.m2/repository/asm/asm/3.1 && wget http://repo1.maven.org/maven2/asm/asm/3.1/asm-3.1.jar
-
+cd ~/.m2/repository/asm/asm/3.1 && wget http://repo1.maven.org/maven2/asm/asm/3.1/asm-3.1.jar
+cd $origdir
 
 
 name=kafka-hadoop-consumer
@@ -18,7 +18,6 @@ version=$1
 : ${version:="0.1.0"}
 url=https://github.com/wmf-analytics/kafka-hadoop-consumer
 buildroot=build
-origdir=$(pwd)
 prefix="/usr"
 description="A Kafka Hadoop Consumer that uses ZooKeeper to keep track of Kafka brokers and consumption offset."
 
