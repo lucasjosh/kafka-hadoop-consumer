@@ -11,7 +11,7 @@ Options:
   -l <limit>                Max number of messages to consume.  Default: -1 (the topic will be consumed from the current offset to the end)
 "
 
-optspec="t:l:g:o:h"
+optspec="t:l:g:o:z:h"
 while getopts "$optspec" opt; do
     case "${opt}" in
         t)
