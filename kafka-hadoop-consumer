@@ -1,0 +1,52 @@
+#!/bin/bash
+
+usage="
+$(basename $0) -t <topic> -o <hadoop_output_dir> -g <kafka_consumer_group> [-z <zookeeper_connection>] [-l <limit>]
+
+Options:
+  -t <topic>                Kafka topic from which to consume.
+  -o <hadoop_output_dir>    HDFS directory in which to store consumed messages.
+  -g <kafka_consumer_group> ID of consumer group in ZooKeeper under which to save consuemd offset.
+  -z <zookeeper_connection> ZooKeeper connection string.  Comma separated list of hosts:ports.  Default: localhost:2181
+  -l <limit>                Max number of messages to consume.  Default: -1 (the topic will be consumed from the current offset to the end)
+"
+
+optspec="t:l:g:o:h"
+while getopts "$optspec" opt; do
+    case "${opt}" in
+        t)
+            topic="${OPTARG}"
+            ;;
+        l)
+            limit="${OPTARG}"
+            ;;
+        g)
+            group="${OPTARG}"
+            ;;
+        z)
+            zookeeper="${OPTARG}"
+            ;;
+        o)
+            output_dir="${OPTARG}"
+            ;;
+        h)
+            echo "${usage}";
+            exit 0;
+            ;;
+        *)
+            echo "Invalid option '${opt}'" >&2
+            exit 1;
+            ;;
+     esac
+done
+
+test -z $topic      && echo "Must specify topic with -t" >&2 && echo "${usage}" && echo "" && exit 1;
+test -z $output_dir && echo "Must specify Hadoop output directory with -o" >&2 && echo "${usage}" && echo "" && exit 1;
+test -z $group      && echo "Must specify Kafka consumer group with -g" >&2 && echo "${usage}" && echo "" && exit 1;
+test -z $limit      && limit="-1"
+test -z $zookeeper  && zookeeper="localhost:2181"
+
+echo "Consuming $limit messages from topic '$topic' in consumer group $group into $output_dir..."
+command="java -cp /usr/share/java/kafka-hadoop-consumer.jar:`hadoop classpath` kafka.consumer.HadoopConsumer -z $zookeeper -t $topic -g $group -l $limit $output_dir"
+echo $command
+$command
