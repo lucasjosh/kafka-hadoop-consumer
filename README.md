@@ -6,7 +6,7 @@ Originally forked from: https://github.com/miniway/kafka-hadoop-consumer
 ##  Changes
 
 
-- ```package_deb.sh``` uses Maven and FPM to build a .deb package.
+- ```build_deb_package.sh``` uses Maven and FPM to build a .deb package.
 This requires that you have Kafka installed via the WMF-Analytics
 Kraken apt repository: http://analytics1001.wikimedia.org:81/apt/
 
@@ -22,7 +22,7 @@ deb-src http://analytics1001.wikimedia.org:81/apt source/
 
 ## To build:
 ```bash
-./package_deb.sh
+./build_deb_package.sh
 ```
 
 ## Usage
