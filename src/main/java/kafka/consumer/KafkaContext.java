@@ -77,6 +77,7 @@ public class KafkaContext implements Closeable {
             try {
                 setStartOffset(Long.valueOf(reset));
             } catch (NumberFormatException e) {
+                LOG.error("extra logging", e);
             }
         }
     }
@@ -198,6 +199,7 @@ public class KafkaContext implements Closeable {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e) {
+                            LOG.error("extra logging", e);
                         }
                         continue;
                     }

@@ -18,8 +18,12 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HadoopConsumer extends Configured implements Tool {
+
+    private static Logger LOG = LoggerFactory.getLogger(HadoopConsumer.class);
 
     static {
         Configuration.addDefaultResource("core-site.xml");
@@ -34,8 +38,8 @@ public class HadoopConsumer extends Configured implements Tool {
                 out.set(value.getBytes(),0, value.getLength());
                 context.write(key, out);
             } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
+                LOG.error("extra logging", e);
             }
         }
         
@@ -99,6 +103,7 @@ public class HadoopConsumer extends Configured implements Tool {
             zk.commit(group, topic);
         } catch (Exception e) {
             rollback();
+            LOG.error("extra logging", e);
         } finally {
             zk.close();
         }
