@@ -199,7 +199,7 @@ public class KafkaContext implements Closeable {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e) {
-                            LOG.warning("Thread sleep interrupted. ", e);
+                            LOG.warn("Thread sleep interrupted. ", e);
                         }
                         continue;
                     }
