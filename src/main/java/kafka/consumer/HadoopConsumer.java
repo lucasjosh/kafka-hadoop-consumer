@@ -39,6 +39,7 @@ public class HadoopConsumer extends Configured implements Tool {
                 context.write(key, out);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                e.printStackTrace();
                 LOG.error("Exception in map phase for key '" + key + "'.", e);
             }
         }
@@ -103,6 +104,7 @@ public class HadoopConsumer extends Configured implements Tool {
             zk.commit(group, topic);
         } catch (Exception e) {
             rollback();
+            e.printStackTrace();
             LOG.error("Exception in commit.", e);
         } finally {
             zk.close();

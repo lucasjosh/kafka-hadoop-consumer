@@ -77,6 +77,7 @@ public class KafkaContext implements Closeable {
             try {
                 setStartOffset(Long.valueOf(reset));
             } catch (NumberFormatException e) {
+                e.printStackTrace();
                 LOG.error("Failed setStartOffset().", e);
             }
         }
@@ -199,6 +200,7 @@ public class KafkaContext implements Closeable {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e) {
+                            e.printStackTrace();
                             LOG.warn("Thread sleep interrupted. ", e);
                         }
                         continue;
