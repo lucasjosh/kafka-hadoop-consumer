@@ -1,18 +1,5 @@
 #!/bin/bash
 origdir=$(pwd)
-
-apt-get install maven2
-gem install -r fpm
-# make sure dependencies are available.
-# Install kafka package, this comes from WMF Kraken repository:
-apt-get install -y kafka
-mvn install:install-file -DgroupId=kafka -DartifactId=kafka -Dversion=0.7.2 -Dpackaging=jar -Dfile=/usr/lib/kafka/core/target/scala_2.8.0/kafka-0.7.2.jar -DgeneratePom=true
-
-# I am such a maven noob:
-cd /root/.m2/repository/asm/asm/3.1 && rm asm-3.1.jar && wget http://repo1.maven.org/maven2/asm/asm/3.1/asm-3.1.jar
-cd $origdir
-
-
 name=kafka-hadoop-consumer
 version=$1
 : ${version:="0.1.0"}
