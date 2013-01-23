@@ -39,7 +39,6 @@ public class HadoopConsumer extends Configured implements Tool {
                 context.write(key, out);
             } catch (InterruptedException e) {
                 e.printStackTrace();
-                e.printStackTrace();
                 LOG.error("Exception in map phase for key '" + key + "'.", e);
             }
         }
