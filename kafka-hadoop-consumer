@@ -9,9 +9,10 @@ Options:
   -g <kafka_consumer_group> ID of consumer group in ZooKeeper under which to save consuemd offset.
   -z <zookeeper_connection> ZooKeeper connection string.  Comma separated list of hosts:ports.  Default: localhost:2181
   -l <limit>                Max number of messages to consume.  Default: -1 (the topic will be consumed from the current offset to the end)
+  -q <queue_name>           Hadoop Queue name (mapreduce.job.queuename).  Default: not set.
 "
 
-optspec="t:l:g:o:z:h"
+optspec="t:l:g:o:z:q:h"
 while getopts "$optspec" opt; do
     case "${opt}" in
         t)
@@ -28,6 +29,9 @@ while getopts "$optspec" opt; do
             ;;
         o)
             output_dir="${OPTARG}"
+            ;;
+        q)
+            queue_name="${OPTARG}"
             ;;
         h)
             echo "${usage}";
@@ -46,7 +50,13 @@ test -z $group      && echo "Must specify Kafka consumer group with -g" >&2 && e
 test -z $limit      && limit="-1"
 test -z $zookeeper  && zookeeper="localhost:2181"
 
+if [ -n "${queue_name}" ]; then
+    java="java -Dmapreduce.job.queuename=${queue_name}"
+else
+    java="java"
+fi
+
 echo "Consuming $limit messages from topic '$topic' in consumer group $group into $output_dir..."
-command="java -cp /usr/share/java/kafka-hadoop-consumer.jar:`hadoop classpath` kafka.consumer.HadoopConsumer -z $zookeeper -t $topic -g $group -l $limit $output_dir"
+command="${java} -cp /usr/share/java/kafka-hadoop-consumer.jar:`hadoop classpath` kafka.consumer.HadoopConsumer -z $zookeeper -t $topic -g $group -l $limit $output_dir"
 echo $command
 $command
