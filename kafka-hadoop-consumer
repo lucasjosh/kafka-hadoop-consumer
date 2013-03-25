@@ -50,13 +50,9 @@ test -z $group      && echo "Must specify Kafka consumer group with -g" >&2 && e
 test -z $limit      && limit="-1"
 test -z $zookeeper  && zookeeper="localhost:2181"
 
-if [ -n "${queue_name}" ]; then
-    java="java -Dmapreduce.job.queuename=${queue_name}"
-else
-    java="java"
-fi
-
 echo "Consuming $limit messages from topic '$topic' in consumer group $group into $output_dir..."
-command="${java} -cp /usr/share/java/kafka-hadoop-consumer.jar:`hadoop classpath` kafka.consumer.HadoopConsumer -z $zookeeper -t $topic -g $group -l $limit $output_dir"
+command="java -cp /usr/share/java/kafka-hadoop-consumer.jar:`hadoop classpath` kafka.consumer.HadoopConsumer -z $zookeeper -t $topic -g $group -l $limit"
+test -n "$queue_name" && command="${command} -q $queue_name"
+command="${command} ${output_dir}"
 echo $command
 $command
