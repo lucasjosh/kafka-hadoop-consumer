@@ -1,9 +1,5 @@
 package kafka.consumer;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.apache.commons.cli.*;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -11,11 +7,13 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.JobConf;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class HadoopConsumer extends Configured implements Tool {
 
@@ -24,7 +22,6 @@ public class HadoopConsumer extends Configured implements Tool {
         //Configuration.addDefaultResource("mapred-site.xml");
     }
 
-    private Options options;
     private CommandLine cmd;
 
 
